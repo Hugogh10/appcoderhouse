@@ -1,12 +1,17 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, useWindowDimensions, Pressable } from 'react-native'
 import React from 'react'
 import { colors } from '../theme/colors';
+//import { useWindowDimensions } from "react-native"
 
-const CategoryItem = ({ item }) => {
+const CategoryItem = ({ item, navigation }) => {
+  //const { height, width } = useWindowDimensions();
+
+
+
   return (
-    <View>
+    <Pressable onPress={() => navigation.navigate("products", { item: item})}>
       <Text style={styles.CategoryText}>{item}</Text>
-    </View>
+    </Pressable>
   )
 }
 const styles = StyleSheet.create({

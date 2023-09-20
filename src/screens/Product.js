@@ -1,21 +1,20 @@
-import { View, Text, FlatList, Image } from 'react-native'
+import { View, Text, FlatList, Image, SafeAreaView, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Search from '../components/Search'
 import { products } from '../data/products'
 import ProductItem from '../components/ProductItem'
 
-const Products = ({ category }) => {
+const Products = ({ route, navigation }) => {
 
     const [categoryProd, setCategoryProd] = useState([]);
     const [text, setText] = useState(null);
 
-    console.log("TEXTO", text);
-    console.log("Category Prod", categoryProd); 
+    const { item } = route.params;
     
 
     useEffect(() => {
-      const categoryProducts = products.filter((el) => el.category === category)
+      const categoryProducts = products.filter((el) => el.category === item)
         setCategoryProd(categoryProducts);
 
         if (text) {
@@ -26,21 +25,26 @@ const Products = ({ category }) => {
             setCategoryProd(titleProduct);
         }
 
-        }, [text, category]);
+        }, [text, item]);
     
 
   return (
+    <SafeAreaView>
     <View>
-        <Header title={"Productos"}/>
+        <Header title={item}/>
+        <Pressable onPress={()=> navigation.goBack()}>
+        <Text>ATRAS</Text>
+      </Pressable>
         <Search text={text} setText={setText} />
 
         <FlatList 
         data={categoryProd}
         keyExtractor={products.id}
-        renderItem={({ item }) => <ProductItem item={item} />}
+        renderItem={({ item }) => <ProductItem navigation={navigation} item={item} />}
         />
         
     </View>
+    </SafeAreaView>
   )
 }
 

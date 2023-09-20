@@ -1,14 +1,14 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
 import React from 'react'
 import { colors } from '../theme/colors';
 
 
-const ProductItem = ({ item }) => {
+const ProductItem = ({ item, navigation }) => {
   return (
     <View style={styles.container}>
+      <Pressable onPress={()=> navigation.navigate("productDetail")}>
       <Text style={styles.text}>{item.title}</Text>
-      <Text style={styles.text}>{item.price}</Text>
-
+      </Pressable>
       <Image
         style={styles.image}
         height={80}
@@ -36,6 +36,8 @@ const styles = StyleSheet.create({
       fontSize: 28,
       fontWeight: "900",
       marginLeft: 20,
+      fontFamily: "Ubuntu",
+      backgroundColor: colors.lighto,
     },
     image:{
       marginRight: 10,
