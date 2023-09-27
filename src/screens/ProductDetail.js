@@ -3,29 +3,35 @@ import React from 'react'
 import { products } from "../data/products"
 import Header from '../components/Header'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useSelector } from "react-redux";
+import { Ionicons } from '@expo/vector-icons';
 
 const ProductDetail = ({ navigation }) => {
-  
-  const initialProd = products [1];
+
+  const productSelected = useSelector(
+    (state) => state.homeSlice.productSelected
+  );
   
   return (
     <SafeAreaView>
       <Header title= "Detalle" /> 
       <Pressable onPress={() => navigation.goBack()}>
-        <Text>ATRAS</Text>
+
+      <Ionicons name="caret-back-circle-outline" size={30} color="black" />
+
       </Pressable>
       <View style={styles.containerImage}>
         <Image 
           style={styles.image}
-          source={{uri: initialProd.images[2],}}
+          source={{uri: productSelected.images[2],}}
           />
-          <Text style={styles.title}> Titulo: {initialProd.title}</Text>
+          <Text style={styles.title}> Titulo: {productSelected.title}</Text>
           <Text style={styles.description}> 
           {" "}
-          Descripcion: {initialProd.description}{""}
+          Descripcion: {productSelected.description}{""}
           </Text>
-          <Text> Rating: {initialProd.rating}</Text>
-          <Text> Precio: {initialProd.price}</Text>
+          <Text> Rating: {productSelected.rating}</Text>
+          <Text> Precio: {productSelected.price}</Text>
           </View>
           <Button 
           title="Agregar al carrito"

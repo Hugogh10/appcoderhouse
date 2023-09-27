@@ -1,22 +1,29 @@
 import { View, Text, StyleSheet, useWindowDimensions, Pressable } from 'react-native'
 import React from 'react'
 import { colors } from '../theme/colors';
+import { setCategory } from '../redux/slice/homeSlice';
+import { useDispatch } from 'react-redux';
 //import { useWindowDimensions } from "react-native"
 
 const CategoryItem = ({ item, navigation }) => {
+  const dispatch = useDispatch();
+
+  const onHandleItem = () => {
+    dispatch(setCategory(item));
+
+    navigation.navigate("products", { item: item});
+  };
+  
   //const { height, width } = useWindowDimensions();
-
-
-
   return (
-    <Pressable onPress={() => navigation.navigate("products", { item: item})}>
-      <Text style={styles.CategoryText}>{item}</Text>
+    <Pressable onPress={() => onHandleItem()}>
+      <Text style={styles.categoryText}>{item}</Text>
     </Pressable>
   )
 }
 const styles = StyleSheet.create({
     
-    CategoryText :{
+    categoryText :{
         fontSize: 20,
         margin: 3,
         color: colors.heavyg,
@@ -25,7 +32,7 @@ const styles = StyleSheet.create({
         padding: 3,
         borderWidth: 2,
         borderColor: colors.heavyg,
-        width:"95%",
+        width:"100%",
         textAlign: "center",
     }
   });

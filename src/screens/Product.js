@@ -2,16 +2,18 @@ import { View, Text, FlatList, Image, SafeAreaView, Pressable } from 'react-nati
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Search from '../components/Search'
-import { products } from '../data/products'
 import ProductItem from '../components/ProductItem'
+import { useSelector } from 'react-redux/es/hooks/useSelector'
+import { Ionicons } from '@expo/vector-icons'; 
+
 
 const Products = ({ route, navigation }) => {
 
     const [categoryProd, setCategoryProd] = useState([]);
     const [text, setText] = useState(null);
-
     const { item } = route.params;
-    
+
+const products = useSelector(state => state.homeSlice.allProducts);    
 
     useEffect(() => {
       const categoryProducts = products.filter((el) => el.category === item)
@@ -33,7 +35,7 @@ const Products = ({ route, navigation }) => {
     <View>
         <Header title={item}/>
         <Pressable onPress={()=> navigation.goBack()}>
-        <Text>ATRAS</Text>
+        <Ionicons name="caret-back-circle-outline" size={30} color="black" />
       </Pressable>
         <Search text={text} setText={setText} />
 
