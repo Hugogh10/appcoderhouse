@@ -4,6 +4,8 @@ import { useFonts } from "expo-font";
 import TabNav from './src/navigation/TabNav';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
+import MainNav from './src/navigation/MainNav';
+import AuthNav from './src/navigation/AuthNav';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -18,9 +20,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-    <NavigationContainer>
-      <TabNav />
-    </NavigationContainer>
+      <MainNav />
     </Provider>
   );
 };

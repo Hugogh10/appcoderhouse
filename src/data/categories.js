@@ -1,4 +1,4 @@
- export const categories = [
+export const categories = [
     "smartphones",
     "laptops",
     "fragrances",
@@ -18,5 +18,5 @@
     "sunglasses",
     "automotive",
     "motorcycle",
-    "lighting"
-];
+    "lighting",
+  ];

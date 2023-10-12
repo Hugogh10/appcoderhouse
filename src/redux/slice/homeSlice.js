@@ -3,13 +3,14 @@ import { categories } from "../../data/categories";
 import { products } from "../../data/products";
 
 const homeSlice = createSlice({
-    name: "home",
-    initialState: {
-        allCategories: categories,
-        allProducts: products,
-        categorySelected: "",
-        productSelected: {},
-    },
+  name: "home",
+  initialState: {
+    allCategories: categories,
+    allProducts: products,
+    categorySelected: "",
+    productsFilterByCategory: [],
+    productSelected: {},
+  },
 
     reducers: {
         setCategory: ( state, action) =>{

@@ -6,6 +6,8 @@ import RootNavigation from './RootNavigation'
 import Profile from '../screens/Profile'
 import { colors } from '../theme/colors';
 import { Ionicons } from "@expo/vector-icons";
+import ProfileNav from "./ProfileNav";
+
 
 
 
@@ -31,13 +33,12 @@ const TabNav = () => {
             />
           ),
         }}
-        name="profile"
-        component={Profile}
+        name="profileNav"
+        component={ProfileNav}
       />
     </Tab.Navigator>
   )
 }
-const styles = StyleSheet.create({})
 
 export default TabNav
 

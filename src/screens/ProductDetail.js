@@ -1,12 +1,11 @@
 import { View, Text, StyleSheet, Image, Button, Pressable } from 'react-native'
 import React from 'react'
-import { products } from "../data/products"
 import Header from '../components/Header'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from "react-redux";
 import { Ionicons } from '@expo/vector-icons';
 
-const ProductDetail = ({ navigation }) => {
+const ProductDetail = ({ navigation, route }) => {
 
   const productSelected = useSelector(
     (state) => state.homeSlice.productSelected
@@ -14,7 +13,7 @@ const ProductDetail = ({ navigation }) => {
   
   return (
     <SafeAreaView>
-      <Header title= "Detalle" /> 
+      <Header title= "Detalle"  navigation={navigation}/> 
       <Pressable onPress={() => navigation.goBack()}>
 
       <Ionicons name="caret-back-circle-outline" size={30} color="black" />

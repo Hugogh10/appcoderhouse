@@ -5,12 +5,17 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import CategoryItem from '../components/CategoryItem';
 import { colors } from '../theme/colors'
 import { useSelector } from 'react-redux'
+import { useGetCategoriesQuery } from '../services/ecApi';
 
 
 const Home = ({navigation}) => {
 
-  const categories = useSelector((state) => state.homeSlice.allCategories);
+  //const categories = useSelector((state) => state.homeSlice.allCategories);
   
+  const datos = useGetCategoriesQuery();
+
+  const categories = datos.data
+
   return (
     <SafeAreaView>
       <Header title="Categorias" navigation={navigation} />
