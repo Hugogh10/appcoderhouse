@@ -1,11 +1,19 @@
 import React, { useState } from "react";
-import {View,Text,TextInput,TouchableOpacity, StyleSheet, Pressable,} from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Pressable,
+} from "react-native";
 import { colors } from "../theme/colors";
 import { firebase_auth } from "../firebase/firebase_auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { setIdToken, setUser } from "../redux/slice/authSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AntDesign } from "@expo/vector-icons";
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -19,7 +27,13 @@ const Login = ({ navigation }) => {
         email,
         password
       );
-        AsyncStorage.setItem("userEmail", response.user.email);
+      AsyncStorage.setItem(
+        "savedSession",
+        JSON.stringify({
+          email: response.user.email,
+          idToken: response._tokenResponse.idToken,
+        })
+      );
       dispatch(setUser(response.user.email));
       dispatch(setIdToken(response._tokenResponse.idToken));
       // console.log(response);
@@ -30,6 +44,10 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.iconLogo}>
+        <AntDesign name="aliwangwang-o1" size={100} color="white" />
+        <Text style={styles.titleIcon}>CODERAPP</Text>
+      </View>
       <Text style={styles.title}>Inicio de Sesión</Text>
       <TextInput
         placeholder="Nombre de usuario"
@@ -59,36 +77,52 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: colors.lighto,
   },
   title: {
     fontSize: 24,
+    fontWeight: "bold",
+    color: colors.white,
     marginBottom: 20,
+    fontFamily: "Kanit",
   },
   input: {
-    width: "85%",
-    height: 50,
-    borderColor: colors.heavyg,
-    borderWidth: 2,
-    borderRadius: 5,
-    marginBottom: 20,
-    paddingHorizontal: 10,
-    fontSize: 17,
+    width: "80%",
+    height: 40,
+    backgroundColor: colors.lighto, 
+    borderRadius: 8,
+    paddingLeft: 10,
+    marginBottom: 10,
+    color: colors.lightp, 
   },
   button: {
-    backgroundColor: colors.mediumr,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
+    width: "30%",
+    height: 40,
+    backgroundColor: colors.mediumr, 
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
   },
   buttonText: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "600",
+    color: colors.white, 
+    fontSize: 16,
+    fontWeight: "bold",
   },
   registroText: {
-    marginTop: 30,
-    fontSize: 18,
-    color: colors.mediumr
+    color: colors.white, 
+    marginTop: 10,
+  },
+
+  titleIcon: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: colors.white, 
+    marginBottom: 20,
+    fontFamily: "Ubuntu",
+  },
+  iconLogo: {
+    padding: 20,
   },
 });
 

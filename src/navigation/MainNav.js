@@ -6,25 +6,40 @@ import { useSelector } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
 import { useEffect } from "react";
+import { setIdToken, setUser } from "../redux/slice/authSlice";
+import { useDispatch } from "react-redux"
 
 const MainNav = () => {
-    const [checkedUser, setCheckedUser] = useState(null);
-  const user = useSelector((state) => state.authSlice.user);
+    const dispatch = useDispatch();
+    const [checkedUser, setCheckedUser] = useState(false);
+    const user = useSelector((state) => state.authSlice.user);
 
     useEffect(() => {
-        const checkUser = async () => {
-            try {
-            const userEmail = await AsyncStorage.getItem("userEmail");
-            userEmail ? setCheckedUser(userEmail) : setCheckedUser(user);
-            } catch (error) { 
-                console.log(error);
-            };
-        };
-        checkUser();
-    }, [user]);
+      const checkUser = async () => {
+        try {
+      const sessionInfo = await AsyncStorage.getItem("savedSession")
+      if (sessionInfo){
+          let userInfo = JSON.parse(sessionInfo).email
+          let idTokenInfo = JSON.parse(sessionInfo).idToken
+          dispatch(setUser(userInfo))
+          dispatch(setIdToken(idTokenInfo))
+          setCheckedUser(true)
+      } else {
+          setCheckedUser(false)
+      }
+  } catch (err) {
+      console.log(err);
+  }
+} 
+        checkUser()
+}, [user]);
+
+
   return (
 
-    <NavigationContainer>{user ? <TabNav /> : <AuthNav />}</NavigationContainer>
+    <NavigationContainer>
+      {checkedUser ? <TabNav /> : <AuthNav />}
+    </NavigationContainer>
   );
 };
 

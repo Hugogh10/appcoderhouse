@@ -3,8 +3,7 @@ import React from 'react'
 import Header from '../components/Header'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CategoryItem from '../components/CategoryItem';
-import { colors } from '../theme/colors'
-import { useSelector } from 'react-redux'
+import Search from '../components/Search';
 import { useGetCategoriesQuery } from '../services/ecApi';
 
 
@@ -18,7 +17,7 @@ const Home = ({navigation}) => {
 
   return (
     <SafeAreaView>
-      <Header title="Categorias" navigation={navigation} />
+      <Header title="BIENVENIDO" navigation={navigation} />
       <View style={styles.container}>
       <FlatList 
       data={categories}
@@ -32,7 +31,6 @@ const Home = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container:{
-      backgroundColor: colors.mediumr,
       textAlign: 'center',
       padding: 10,
       borderRadius: 10,

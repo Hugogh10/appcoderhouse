@@ -1,22 +1,23 @@
-import { Image, StyleSheet, Text, View, Pressable, ActivityIndicator,ScrollView } from "react-native";
+import { Image, StyleSheet, Text, View, Pressable, ActivityIndicator,ScrollView, Modal } from "react-native";
 import React from "react";
 import Header from "../components/Header";
+import { clearUser } from "../redux/slice/authSlice";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons';
 import { Feather } from "@expo/vector-icons";
 import { colors } from "../theme/colors";
 import * as ImagePicker from "expo-image-picker";
-import { usePutImageMutation } from "../services/ecApi";
-import { useGetImageQuery } from "../services/ecApi";
-//import * as Location from "expo-location";
+import { useState } from 'react';
+import { useDispatch } from "react-redux"
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Profile = () => {
 
-  //const [location, setLocation] = useState(null);
+  const dispatch = useDispatch()
 
- //const [putImage, result] = usePutImageMutation();
-
-  //const { data, isLoading, error, isError, refetch } = useGetImageQuery();
+  const [sessionLogOutModal, setSessionLogOutModal] = useState(false);
 
   const defaultImage =
     "https://img.freepik.com/premium-vector/woman-avatar-profile-round-icon_24640-14047.jpg?w=2000";
@@ -42,10 +43,35 @@ const Profile = () => {
       }
     }
     };
+    const logOut = async () => { 
+      await AsyncStorage.removeItem("savedSession")
+      dispatch(clearUser())
+  }
 
   return (
+    <SafeAreaView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={sessionLogOutModal}
+        onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setSessionLogOutModal(!sessionLogOutModal);
+        }}>
+            <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                    <Text>¿Estas seguro que deseas cerrar sesion?</Text>
+                    <Pressable style={[styles.button, styles.buttonClose]} onPress={() => {logOut(); setSessionLogOutModal(!sessionLogOutModal)}}>
+                        <Text style={styles.textStyle}>Log Out</Text>
+                    </Pressable>
+                    <Pressable style={[styles.button, styles.buttonClose]} onPress={() => {setSessionLogOutModal(!sessionLogOutModal)}}>
+                        <Text style={styles.textStyle}>Regresar</Text>
+                    </Pressable>
+                </View>
+            </View>
+        </Modal>
     <View>
-      <Header title="Mi Perfil" />
+      <Header title="MI PERFIL" />
       <View style={{ alignItems: "center", marginTop: 15 }}>
         <Image
           style={styles.imagen}
@@ -82,11 +108,22 @@ const Profile = () => {
             </Pressable>
             <Text style={styles.textButton}>Abrir Mapa</Text>
           </View>
+          <View style={styles.containerButton}>
+            <Pressable
+              style={styles.containerIcon}
+              onPress={()=>setSessionLogOutModal(!sessionLogOutModal)}>
+              <AntDesign name="logout" size={24} color="black" />
+            </Pressable>
+            <Text style={styles.textButton}>Cerrar Sesión</Text>
+          </View>
         </View>
       </View>
     </View>
+    </SafeAreaView>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   imagen: {
@@ -104,13 +141,65 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     padding: 5,
     borderRadius: 8,
-    borderColor: colors.lightp,
+    borderColor: colors.lighto,
   },
   textButton: {
     marginLeft: 15,
     fontFamily: "Ubuntu",
     fontSize: 20,
   },
+  text: {
+    alignSelf: 'center',
+    margin: 20
+},
+centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+},
+modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+},
+button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    margin: 10
+},
+buttonOpen: {
+    backgroundColor: '#F194FF',
+},
+buttonClose: {
+    backgroundColor: '#2196F3',
+},
+textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+},
+modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+},
+modalIconContainer:{
+    flexDirection: 'row'
+},
+modalIcon: {
+    margin: 25
+}
 });
 
 export default Profile;

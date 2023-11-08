@@ -15,11 +15,14 @@ const authSlice = createSlice({
       state.idToken = action.payload;
     },
     clearUser: (state) => {
-      (state.user = null), (state.idToken = null);
+      (state.user = null), (state.idToken = '');
     },
+    setCameraImage: (state, action) => {
+      state.imageCamera = action.payload;
+  },
   },
 });
 
-export const { setIdToken, setUser, clearUser } = authSlice.actions;
+export const { setIdToken, setUser, clearUser, setCameraImage } = authSlice.actions;
 
 export default authSlice.reducer;

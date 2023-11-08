@@ -27,11 +27,10 @@ const styles = StyleSheet.create({
         fontSize: 20,
         margin: 3,
         color: colors.heavyg,
-        backgroundColor: colors.lighto,
         borderRadius: 5,
         padding: 3,
         borderWidth: 2,
-        borderColor: colors.heavyg,
+        borderColor: colors.lighto,
         width:"100%",
         textAlign: "center",
     }

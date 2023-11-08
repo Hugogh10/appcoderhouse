@@ -1,17 +1,21 @@
-import { View, Text, StyleSheet, Image, Button, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Image, Button,SafeAreaView, Pressable,} from 'react-native'
+import { colors } from '../theme/colors';
 import React from 'react'
 import Header from '../components/Header'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useSelector } from "react-redux";
 import { Ionicons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
+import { addToCartList } from '../redux/slice/cartSlice';
+
+
 
 const ProductDetail = ({ navigation, route }) => {
+  const dispatch = useDispatch()
 
-  const productSelected = useSelector(
-    (state) => state.homeSlice.productSelected
-  );
-  
-  return (
+  const addToCart =(item) => {dispatch(addToCartList(item))}
+
+const { item } = route.params
+
+return (
     <SafeAreaView>
       <Header title= "Detalle"  navigation={navigation}/> 
       <Pressable onPress={() => navigation.goBack()}>
@@ -22,20 +26,24 @@ const ProductDetail = ({ navigation, route }) => {
       <View style={styles.containerImage}>
         <Image 
           style={styles.image}
-          source={{uri: productSelected.images[2],}}
+          source={{uri: item.images[2],}}
           />
-          <Text style={styles.title}> Titulo: {productSelected.title}</Text>
+          <Text style={styles.title}> Titulo: {item.title}</Text>
           <Text style={styles.description}> 
           {" "}
-          Descripcion: {productSelected.description}{""}
+          Descripcion: {item.description}{""}
           </Text>
-          <Text> Rating: {productSelected.rating}</Text>
-          <Text> Precio: {productSelected.price}</Text>
+          <Text> Rating: {item.rating}</Text>
+          <Text> Precio: {item.price}</Text>
           </View>
-          <Button 
-          title="Agregar al carrito"
-          onProgress={() => console.log("hola")}
-          />
+          <View style={styles.containerButton}>
+            <Pressable
+              style={styles.containerIcon}
+              onPress={()=>{addToCart(item)}}>
+               <Ionicons name="ios-cart" size={35} color="green" />
+               <Text style={styles.titleButton}> AGREGAR AL CARRITO </Text>            
+            </Pressable>
+          </View>
     </SafeAreaView>
   )
 }
@@ -52,10 +60,25 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: "Monserrat",
   },
+  titleButton: {
+    fontSize: 15,
+    fontFamily: "Kanit",
+  },
   description:{
     fontSize: 20,
     marginVertical: 15,
-  }
+  },
+  containerButton: {
+    marginVertical: 20,
+    alignItems: "center",
+  },
+  containerIcon: {
+    borderWidth: 2,
+    padding: 5,
+    borderRadius: 8,
+    borderColor: colors.lighto,
+    alignItems: "center",
+  },
 
 })
 

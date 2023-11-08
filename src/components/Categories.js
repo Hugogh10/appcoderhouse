@@ -11,10 +11,9 @@ const Categories = ({ navigation }) => {
 };
 const styles = StyleSheet.create({
   container:{
-      backgroundColor: colors.mediumr,
       textAlign: 'center',
-      padding: 10,
-      borderRadius: 10,
+      padding: 50,
+      borderRadius: 60,
   }
 });
 
